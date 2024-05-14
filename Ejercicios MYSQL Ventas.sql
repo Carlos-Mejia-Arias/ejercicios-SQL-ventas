@@ -105,7 +105,7 @@ JOIN (
 ON productos.id_producto = subset_fecha.id_producto
 ;
 
-/* Ingresos de ventas entre el 15 de enero al 15 de febrero
+/*10. Ingresos de ventas entre el 15 de enero al 15 de febrero
  Utilizando una cláusula WITH
 */
 
@@ -122,7 +122,7 @@ FROM ingresos i
 ;
 
 
-/*10. Lista de productos vendidos (Con su descripción, precio, cantidad vendidas e ingresos)*/
+/*11. Lista de productos vendidos (Con su descripción, precio, cantidad vendidas e ingresos)*/
 SELECT p.descripcion, p.precio, COUNT(id_venta) AS cantidad_vendidas, SUM(p.precio) as ingresos
 FROM productos AS p
 INNER JOIN ventas AS v
@@ -147,7 +147,7 @@ WHERE FECHA < '2020-01-15'
 ;
 
 
-/*11. Ranking de mejores vendedores (criterio: por cantidad de productos vendidos)*/
+/*12. Ranking de mejores vendedores (criterio: por cantidad de productos vendidos)*/
 SELECT v.id_vendedor, v.nombre, v.apellido, COUNT(vt.id_venta) AS cantidad_vendida
 FROM vendedores v
 LEFT JOIN ventas vt
@@ -158,7 +158,7 @@ LIMIT 0, 3
 ;
 
 
-/* Ranking de los peores vendedores (criterio: por cantidad de productos vendidos)*/
+/*13. Ranking de los peores vendedores (criterio: por cantidad de productos vendidos)*/
 SELECT v.id_vendedor, v.nombre, v.apellido, COUNT(vt.id_venta) AS cantidad_vendida
 FROM vendedores v
 LEFT JOIN ventas vt
@@ -169,7 +169,7 @@ LIMIT 0, 3
 ;
 
 
-/*Vendedores que NO han vendido absolutamente nada*/
+/*14. Vendedores que NO han vendido absolutamente nada*/
 SELECT v.id_vendedor, v.nombre, v.apellido, COUNT(vt.id_venta) AS cantidad_vendida
 FROM vendedores v
 LEFT JOIN ventas vt
@@ -180,7 +180,7 @@ ORDER BY cantidad_vendida ASC
 ;
 
 
-/*12. Ranking de mejores clientes (criterio: por ingresos que obtiene la empresa)*/
+/*15. Ranking de mejores clientes (criterio: por ingresos que obtiene la empresa)*/
 SELECT c.id_cliente, CONCAT(c.nombre, ' ', c.apellido) AS cliente, sum(p.precio) AS ingresos_euros
 FROM clientes c
 LEFT JOIN ventas v
@@ -191,8 +191,7 @@ GROUP BY c.id_cliente, c.nombre, c.apellido
 ORDER BY ingresos_euros DESC
 ;
 
-/*Ranking de mejores clientes (criterio: por ingresos que obtiene la empresa)
- utilizando una cláusula WITH*/
+/*16. Ranking de mejores clientes (criterio: por ingresos que obtiene la empresa) utilizando una cláusula WITH*/
 
 WITH ingresos AS (
 	SELECT c.id_cliente, CONCAT(c.nombre, ' ', c.apellido) AS cliente, COUNT(v.id_venta)*p.precio AS ingresos_euros
@@ -210,7 +209,7 @@ ORDER BY ingresos_totales DESC
 ;
 
 
-/*13. Ranking de mejores clientes que tengan como vendedor la oficina de Barcelona (criterio: por ingresos que obtiene la empresa)
+/*17. Ranking de mejores clientes que tengan como vendedor la oficina de Barcelona (criterio: por ingresos que obtiene la empresa)
  Clientes que hayan comprado en Barcelona*/
 SELECT c.id_cliente, CONCAT(c.nombre, ' ', c.apellido) AS cliente, sum(p.precio) AS ingresos_euros
 FROM clientes c
